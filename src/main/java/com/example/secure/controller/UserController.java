@@ -2,7 +2,6 @@ package com.example.secure.controller;
 
 import com.example.secure.entity.User;
 import com.example.secure.repository.UserRepository;
-import com.example.secure.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +22,7 @@ public class UserController {
     public String indexPage() {
         return "index";
     }
-    @GetMapping(value = "/user")
+    @RequestMapping(value = "/user")
     public String userPage(Model model, Principal principal) {
         User user = userRepository.findByUsername(principal.getName());
         model.addAttribute("pers", user);

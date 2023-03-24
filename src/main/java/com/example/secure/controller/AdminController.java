@@ -10,20 +10,16 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AdminController {
-    private UserService serv;
+    private final UserService serv;
     @Autowired
     public AdminController(UserService serv) {
         this.serv = serv;
     }
 
-    @GetMapping(value = "/admin")
-    public String usersModels() {
-        return "redirect:users";
-    }
-    @GetMapping(value = "/users")
+    @RequestMapping(value = "/admin")
     public String usersModels(Model model) {
         model.addAttribute("users", serv.getAll());
-        return "users";
+        return "admin";
     }
     @GetMapping("/new")
     public String createUserForm(Model model, User user) {

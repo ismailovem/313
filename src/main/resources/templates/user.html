@@ -2,23 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Spring Security Example</title>
+    <title>USER</title>
 </head>
 <body>
     <div th:align="center">
         <table>
-            <tr  th:object="${pers}" >
-                <td th:text="${pers.username}"></td>
-                <td th:text="${pers.lastName}"></td>
-                <td> -----  welcome spring boot user authenticated page!</td>
+            <tr th:object="${pers}" >
+                <td th:text="${pers.getUsername()}"></td>
+                <td th:text="${pers.getLastName()}"></td>
+                <td>welcome spring boot user authenticated page!</td>
             </tr>
         </table>
         <a href="/logout">logout</a>
     </div>
-
-
-
-
 
 </body>
 </html>

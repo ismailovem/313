@@ -47,6 +47,27 @@ public class User implements UserDetails {
     public String getPassword() {
         return password;
     }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+    public String getRoleToString() {
+        StringBuilder sb = new StringBuilder();
+        for (Role r : roles) {
+            sb.append(r.getName().substring(5));
+            sb.append(" ");
+        }
+        return sb.toString();
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -63,6 +84,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 
 }
 
