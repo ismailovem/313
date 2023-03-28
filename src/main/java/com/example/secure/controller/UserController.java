@@ -19,10 +19,10 @@ public class UserController {
     }
 
     @GetMapping(value = "/")
-    public String indexPage() {
+    public String userPage() {
         return "index";
     }
-    @RequestMapping(value = "/user")
+    @GetMapping(value = "/user")
     public String userPage(Model model, Principal principal) {
         User user = userRepository.findByUsername(principal.getName());
         model.addAttribute("pers", user);

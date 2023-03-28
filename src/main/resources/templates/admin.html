@@ -1,22 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
     <title>ADMIN</title>
 </head>
 <body>
+
 <div th:align="center">
     <a href="/logout"><h4>Logout</h4></a>
     <a href="/user"><h4>User page</h4></a>
-    <a href="/index"><h4>index</h4></a>
+    <a href="/"><h4>index</h4></a>
     <a href="/new"><h3>add new user</h3></a>
 </div>
 <div th:align="center">
-    <table border="1" cellpadding="5">
+    <table border="1">
         <tr>
             <th>ID</th>
             <th>Name</th>
             <th>LastName</th>
+            <th>Password</th>
             <th>Role</th>
             <th colspan="2">Action</th>
         </tr>
@@ -24,17 +27,21 @@
             <td th:text="${user.getId()}"></td>
             <td th:text="${user.getUsername()}"></td>
             <td th:text="${user.getLastName()}"></td>
+            <td th:text="${user.getPassword()}"></td>
             <td th:text="${user.getRoleToString()}"></td>
-
-            <form th:method="post" th:action="@{/edit/{id}(id=${user.getId()})}">
-                <td><input type="submit" value="edit" /></td>
-            </form>
-
-            <form th:method="delete" th:action="@{/delete/{id}(id=${user.getId()})}">
-                <td><input type="submit" value="delete" /></td>
-            </form>
+            <td>
+                <form th:method="post" th:action="@{/edit/{id}(id=${user.getId()})}">
+                    <input type="submit" value="edit" />
+                </form>
+            </td>
+            <td>
+                <form th:method="delete" th:action="@{/delete/{id}(id=${user.getId()})}">
+                    <input type="submit" value="delete" />
+                </form>
+            </td>
         </tr>
     </table>
+
 </div>
 
 

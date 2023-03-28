@@ -10,15 +10,21 @@
     <div align="center">
 
         <form th:method="patch" th:action="@{/update/{id}(id=${person.getId()})}" th:object="${person}" >
+
             <input type="hidden" name="_method" value="patch" />
+
             <label for="id">id</label>
-            <input readonly type="number" th:field="*{id}" id="id" >
+            <input readonly type="number" th:field="*{id}" id="id" ><br>
 
             <label for="name">name</label>
-            <input type="text" th:field="*{username}" id="name" placeholder="name">
+            <input type="text" th:field="*{username}" id="name" placeholder="name"><br>
 
             <label for="lastName">Last name</label>
-            <input type="text" th:field="*{lastName}" id="lastName" placeholder="lastname">
+            <input type="text" th:field="*{lastName}" id="lastName" placeholder="lastname"><br>
+
+            <input type="hidden" th:field="*{password}" id="password" placeholder="password"><br>
+            <input type="hidden" th:field="${person.roles}" id="role" placeholder="password"><br>
+
             <input type="submit" value="update">
         </form>
     </div>
