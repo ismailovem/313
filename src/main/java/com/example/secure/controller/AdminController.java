@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
     private final UserService serv;
     @Autowired
@@ -17,20 +18,24 @@ public class AdminController {
         this.serv = serv;
     }
 
-    @GetMapping(value = "/admin")
-    public String usersModels(Model model) {
+    @GetMapping("/")
+    public String adminPage() {
+        return "index";
+    }
+    @GetMapping(value = "")
+    public String userList(Model model) {
         model.addAttribute("users", serv.getAllUsers());
-        return "admin";
+        return "/admin";
     }
 
     @GetMapping("/new")
     public String createUserForm(Model model) {
         User user = new User();
         model.addAttribute("user", user);
-        return "/user-create";
+        return "/add";
     }
 
-    @PostMapping("/user-create")
+    @PostMapping("admin/add")
     public String createUser(User user) {
         serv.saveUser(user);
         return "redirect:/admin";
@@ -43,9 +48,10 @@ public class AdminController {
         return "update";
     }
 
-    @PatchMapping("/update/{id}")
-    public String updateUser(@ModelAttribute("person") User user, @PathVariable("id") Long id) {
-        serv.update(user, id);
+
+    @PatchMapping(value = "edit/{id}")
+    public String updateUser(User updatedUser, @PathVariable("id") Long id) {
+        serv.update(updatedUser, id);
         return "redirect:/admin";
     }
 

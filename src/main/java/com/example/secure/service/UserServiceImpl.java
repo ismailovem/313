@@ -6,30 +6,22 @@ import com.example.secure.entity.User;
 import com.example.secure.repository.RoleRepository;
 import com.example.secure.repository.UserRepository;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
-import javax.transaction.Transactional;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 
-@Transactional
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    @Lazy
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -41,30 +33,32 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found "+ username);
         }
-        UserDetails userDetails = org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
+        return org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
                 .password(user.getPassword()).authorities(user.getRoles()).build();
-        return userDetails;
     }
-
+    @Transactional
     @Override
     public void saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         user.setEnabled(true);
-        Role userRole = findByRole("ROLE_USER");
-        user.setRoles(new ArrayList<>(Arrays.asList(userRole)));
+        List<Role> list = Stream.of(roleRepository.findByRole("ROLE_USER")).toList();
+        user.setRoles(list);
         userRepository.save(user);
     }
+    @Transactional
     @Override
     public void removeById(Long id) {
         userRepository.deleteById(id);
     }
+    @Transactional
     @Override
     public void update(User user, Long id) {
-        User beforeUpdateUser = findById(id);
-        beforeUpdateUser.setUsername(user.getUsername());
-        beforeUpdateUser.setLastName(user.getLastName());
-        beforeUpdateUser.setPassword(user.getPassword());
-        beforeUpdateUser.setRoles(user.getRoles());
+        User forUpdateUser = findById(id);
+        forUpdateUser.setUsername(user.getUsername());
+        forUpdateUser.setLastName(user.getLastName());
+        forUpdateUser.setPassword(user.getPassword());
+        forUpdateUser.setEnabled(true);
+        forUpdateUser.setRoles(user.getRoles());
     }
     @Override
     public User findById(Long id) {
@@ -74,6 +68,4 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-    public List<Role> getAllRoles() { return roleRepository.findAll(); }
-    public Role findByRole (String role) { return roleRepository.findByRole(role); }
 }

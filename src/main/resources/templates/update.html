@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
 
-<html>
 <head>
-    <meta charset="UTF-8">
     <title>Update User</title>
 </head>
 <body>
     <div align="center">
 
-        <form th:method="patch" th:action="@{/update/{id}(id=${person.getId()})}" th:object="${person}" >
+        <form th:method="patch" th:action="@{{id} (id=${person.getId()})}" th:object="${person}" >
 
             <input type="hidden" name="_method" value="patch" />
 

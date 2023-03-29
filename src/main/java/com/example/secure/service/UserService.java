@@ -1,6 +1,5 @@
 package com.example.secure.service;
 
-import com.example.secure.entity.Role;
 import com.example.secure.entity.User;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +14,5 @@ public interface UserService extends UserDetailsService {
     void removeById(Long id);
     void update(User user, Long id);
     List<User> getAllUsers();
-    List<Role> getAllRoles();
-
 }
 

@@ -11,6 +11,7 @@ import java.security.Principal;
 
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
     private final UserRepository userRepository;
     @Autowired
@@ -22,7 +23,7 @@ public class UserController {
     public String userPage() {
         return "index";
     }
-    @GetMapping(value = "/user")
+    @GetMapping(value = "")
     public String userPage(Model model, Principal principal) {
         User user = userRepository.findByUsername(principal.getName());
         model.addAttribute("pers", user);
